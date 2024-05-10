@@ -11,8 +11,8 @@ Route::get('/users/{id}', [userController::class, 'show']);
 
 Route::post('/users', [userController::class, 'store']);
 
-Route::put('/users/{id}', function(){
-    return 'Updating user';
-});
+Route::put('/users/{id}', [userController::class, 'update']);
+
+Route::patch('/users/{id}', [userController::class, 'updatePatch']);
 
 Route::delete('/users/{id}', [userController::class, 'destroy']);
