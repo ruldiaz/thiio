@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 class userController extends Controller
 {
@@ -31,6 +34,7 @@ class userController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:user',
+            'password' => 'required',
             'phone' => 'required|digits:10',
             'language' => 'required|in:English,Spanish'
         ]);
@@ -47,6 +51,7 @@ class userController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'language' => $request->language
         ]);
@@ -118,6 +123,7 @@ class userController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:user',
+            'password' => 'required',
             'phone' => 'required|digits:10',
             'language' => 'required|in:English,Spanish'
         ]);
@@ -133,6 +139,7 @@ class userController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->password = $request->password;
         $user->phone = $request->phone;
         $user->language = $request->language;
 
@@ -159,6 +166,7 @@ class userController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'max:255',
             'email' => 'email|unique:user',
+            'password' => 'max:10',
             'phone' => 'digits:10',
             'language' => 'in:English,Spanish'
         ]);
@@ -180,6 +188,10 @@ class userController extends Controller
             $user->email = $request->email;
         }
 
+        if($request->has('password')){
+            $user->password = $request->password;
+        }
+
         if($request->has('phone')){
             $user->phone = $request->phone;
         }
@@ -198,5 +210,19 @@ class userController extends Controller
 
         return response()->json($data, 200);
 
+    }
+
+    public function login(Request $request){
+        
+        if(!Auth::attempt($request->only('email','password'))){
+            
+            return response([
+                'message' => 'Invalid credentials.'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $user = Auth::user();
+
+        return $user;
     }
 }
