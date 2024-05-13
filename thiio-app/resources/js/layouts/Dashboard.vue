@@ -12,7 +12,7 @@
         <p><strong>Password:</strong> {{ user.password }}</p>
         <p><strong>Phone:</strong> {{ user.phone }}</p>
         <p><strong>Language:</strong> {{ user.language }}</p>
-        <v-btn color="primary" @click="editUser(user)">Edit</v-btn>
+        <v-btn color="primary" @click="editUser(user)">Update</v-btn>
         <v-btn color="error" @click="deleteUser(user.id)">Delete</v-btn>
       </v-card-text>
     </v-card>
