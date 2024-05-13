@@ -1,6 +1,18 @@
 <template>
-    <div>
-        <h1>Hello world !!!</h1>
-        <v-btn color="primary">Button</v-btn>
+    <div id="app">
+      <Login />
     </div>
-</template>
+  </template>
+  
+  <script>
+  import Login from './Login.vue';
+
+  
+  export default {
+    name: 'App',
+    components: {
+      Login
+    }
+  }
+  </script>
+  
