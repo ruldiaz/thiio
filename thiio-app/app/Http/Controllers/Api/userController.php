@@ -122,7 +122,7 @@ class userController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'email' => 'required|email|unique:user',
+            'email' => 'required',
             'password' => 'required',
             'phone' => 'required|digits:10',
             'language' => 'required|in:English,Spanish'
@@ -165,7 +165,7 @@ class userController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'max:255',
-            'email' => 'email|unique:user',
+            'email' => 'email',
             'password' => 'max:10',
             'phone' => 'digits:10',
             'language' => 'in:English,Spanish'
