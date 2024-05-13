@@ -45,9 +45,12 @@
         <v-card-text>
           <v-text-field v-model="editedUser.name" label="Name"></v-text-field>
           <v-text-field v-model="editedUser.email" label="Email"></v-text-field>
-          <v-text-field v-model="editedUser.password" label="Password"></v-text-field>
           <v-text-field v-model="editedUser.phone" label="Phone"></v-text-field>
           <v-text-field v-model="editedUser.language" label="Language"></v-text-field>
+          <div class="center-checkbox">
+            <v-checkbox class="styled-checkbox" v-model="changePassword" color="primary">.....Change .........Password</v-checkbox>
+          </div>
+          <v-text-field v-if="changePassword" v-model="editedUser.password" label="New Password" type="password"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" @click="saveEditedUser">Save</v-btn>
@@ -55,6 +58,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    
+    
+    
+    
     
     
   </div>
@@ -67,11 +74,12 @@ export default {
   data() {
     return {
       users: [],
-    editingUser: null,
-    creatingUser: false,
-    newUser: { name: '', email: '', password: '', phone: '', language: '' },
-    editedUser: { name: '', email: '', password: '', phone: '', language: '' },
-    editingUserDialog: false,
+      editingUser: null,
+      creatingUser: false,
+      newUser: { name: '', email: '', password: '', phone: '', language: '' },
+      editedUser: { name: '', email: '', password: '', phone: '', language: '' },
+      editingUserDialog: false,
+      changePassword: false,
     };
   },
   mounted() {
@@ -89,6 +97,7 @@ export default {
     editUser(user) {
       this.editedUser = { ...user };
       this.editingUserDialog = true;
+      this.changePassword = false; // Reset to false when opening the dialog
     },
     async saveUser() {
       try {
@@ -121,14 +130,18 @@ export default {
       this.$router.push('/');
     },
     saveEditedUser() {
+      if (!this.changePassword) {
+        delete this.editedUser.password; // Remove password from edited user if not changing it
+      }
+      
       axios.put(`http://127.0.0.1:8000/api/users/${this.editedUser.id}`, this.editedUser)
-    .then(() => {
-      this.editingUserDialog = false;
-      this.fetchUsers();
-    })
-    .catch(error => {
-      console.error('Error saving edited user:', error);
-    });
+        .then(() => {
+          this.editingUserDialog = false;
+          this.fetchUsers();
+      })
+        .catch(error => {
+          console.error('Error saving edited user:', error);
+      });
   }
   }
 };
@@ -136,4 +149,18 @@ export default {
 
 <style scoped>
 /* Add scoped styles if needed */
+/* Center the text within the checkbox */
+.center-checkbox {
+  text-align: center;
+}
+
+.styled-checkbox .v-label {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.styled-checkbox .v-input--selection-controls__input {
+  border-color: rgba(0, 0, 0, 0.87);
+}
+
+
 </style>
