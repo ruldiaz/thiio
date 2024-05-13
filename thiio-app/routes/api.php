@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\userController;
 
 use Illuminate\Http\Request;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/users', [userController::class, 'index']);
 
 Route::get('/users/{id}', [userController::class, 'show']);
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::post('/users', [userController::class, 'store']);
 

@@ -31,22 +31,20 @@ export default {
   },
   methods: {
     async login() {
-      try {
-        // Make an HTTP POST request to your backend endpoint
-        const response = await axios.post('http://127.0.0.1:8000/api/login', {
-          email: this.email,
-          password: this.password
-        });
-
-        // Handle successful login response (e.g., store token, redirect, etc.)
-        console.log('Login successful:', response.data);
-        // Redirect user to dashboard or another page
-        // this.$router.push('/dashboard');
-      } catch (error) {
-        // Handle login error (e.g., display error message)
-        console.error('Login error:', error.response.data);
-      }
-    }
+   try {
+     const response = await axios.post('http://127.0.0.1:8000/api/login', {
+       email: this.email,
+       password: this.password
+     });
+     console.log('Login successful:', response.data);
+     // Redirect user to dashboard or another page
+     console.log('Navigating to dashboard...');
+     this.$router.push('/dashboard');
+     console.log('Navigation complete');
+   } catch (error) {
+     console.error('Login error:', error.response.data);
+   }
+ }
   }
 };
 </script>
