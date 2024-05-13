@@ -139,7 +139,7 @@ class userController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = Hash::make($request->password);
         $user->phone = $request->phone;
         $user->language = $request->language;
 

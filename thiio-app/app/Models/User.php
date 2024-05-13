@@ -23,7 +23,7 @@ class User extends Model implements AuthenticatableContract
         'language'
     ];
 
-    protected $hidden = [
+   /* protected $hidden = [
         'password'
-    ];
+    ];*/
 }
